@@ -7,7 +7,7 @@ class SoldierSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(read_only= True)
     class Meta:
         model= Soldier
-        fields = ['id', 'user_id', 'rcaf_id', 'phone_number', 'birth_date' ]
+        fields = ['id', 'user_id', 'rcaf_id', 'phone_number', 'birth_date','address' ]
 
 
 class DocumentSerializer(serializers.ModelSerializer):

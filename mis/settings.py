@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-=e0dqjpp&60#q1v@9t5_&&grtwp7a$3_x$r+mc91*eksa&&r@9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['167.179.43.40', '0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['167.179.43.40', '0.0.0.0', 'localhost', '127.0.0.1']
 
 # Define user Model
 
@@ -152,15 +152,13 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('Bearer',),
    'ACCESS_TOKEN_LIFETIME': timedelta(hours=20)
 }
 
 DJOSER = {
     'SERIALIZERS' : {
         'user_create': 'core.serializers.UserCreateSerializer',
-        'current_user': 'core.serializers.MyUserSerializer',
-
+        'current_user': 'core.serializers.UserSerializer',
     }
 }
 
