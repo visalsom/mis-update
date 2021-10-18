@@ -45,3 +45,4 @@ class DocumentSerializer(serializers.ModelSerializer):
 class UpdateDocumentSerializer(DocumentSerializer):
     class Meta(DocumentSerializer.Meta):
         fields= ['id', 'name', 'title', 'objective', 'reference', 'body','end_body']
+        

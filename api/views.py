@@ -1,5 +1,5 @@
 from django.http import request
-from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin, UpdateModelMixin, ListModelMixin
+from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -47,20 +47,18 @@ class DocumentViewSet(ModelViewSet):
             return [AllowAny()]
         return [IsAuthenticated()]
 
-class AnnouncementViewSet(ModelViewSet):
+class AnnouncementViewSet(RetrieveModelMixin,ListModelMixin,UpdateModelMixin,DestroyModelMixin, GenericViewSet):
     queryset = Document.objects.filter(doc_type='A')
-
-    def get_serializer_class(self):
-        if self.request.method =='PUT' or self.request.method == 'PATCH':
-            return UpdateDocumentSerializer
-        return DocumentSerializer
-
-    def get_serializer_context(self):
-        return {'user_id' : self.request.user.id}
 
     def get_permissions(self):
         if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAuthenticated()]
+
+    def get_serializer_class(self):
+        if self.request.method =='PUT' or self.request.method == 'PATCH':
+            return UpdateDocumentSerializer
+        return DocumentSerializer
+        
     
 
