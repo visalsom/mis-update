@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
+from uuid import uuid4
 
-# Create your models here.
 
 class Soldier(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
@@ -16,7 +16,31 @@ class Soldier(models.Model):
     class Meta:
         ordering = ['user__first_name', 'user__last_name']
 
-    
+class Subdepartment(models.Model):
+    soldier = models.OneToOneField(Soldier, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class Department(models.Model):
+    soldier = models.OneToOneField(Soldier, on_delete=models.CASCADE)
+    subdepartment = models.ForeignKey(Subdepartment, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class Unit(models.Model):
+    soldier = models.OneToOneField(Soldier, on_delete=models.CASCADE, related_name='unit')
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    department= models.ForeignKey(Department, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class Document(models.Model):
     DOCUMENT_DOCUMENT = 'D'
@@ -25,6 +49,7 @@ class Document(models.Model):
         (DOCUMENT_DOCUMENT, 'Document'),
         (DOCUMENT_ANNOUNCEMENT, 'Announcement')
     ]
+    id = models.UUIDField(primary_key=True, default=uuid4)
     soldier = models.ForeignKey(Soldier, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -39,5 +64,14 @@ class Document(models.Model):
         
     class Meta:
         ordering = ['name', 'doc_type']
+
+class Send(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    document = models.ForeignKey(Document, on_delete=models.PROTECT)
+    destination_soldier = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add= True)
+
+
+    
 
 
