@@ -1,14 +1,8 @@
-
-from operator import truediv
-from tkinter import W
-from django.template import context
 from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin, UpdateModelMixin, ListModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.views import APIView
-from rest_framework import status
 
 from api.models import Document, Send, Soldier
 from api.serializers import DocumentSerializer, CreateSoldierSerializer, SendDocumentSerializer, SoldierSerializer, UpdateDocumentSerializer
